@@ -140,10 +140,10 @@ parser.add_argument(
     '-t', '--time', default=10, help='Time beetween measurements'
 )
 parser.add_argument(
-    '-d', '--download', help='Bandwith to compare to (Download)', required=True
+    '-d', '--download', help='Bandwith to compare to (Download)', required=True, type=int
 )
 parser.add_argument(
-    '-u', '--upload', help='Bandwith to compare to (Download)', required=True
+    '-u', '--upload', help='Bandwith to compare to (Download)', required=True, type=int
 )
 parser.add_argument(
     '-v', '--verbose', help='Debugging mode', action='store_true'
@@ -153,10 +153,13 @@ args = parser.parse_args()
 # Variables
 delta_t = args.time
 oid_down = '1.3.6.1.2.1.2.2.1.10.{0}'.format(args.interface)
-oid_up = '1.3.6.1.2.1.2.2.1.16.{}'.format(args.interface)
+oid_up = '1.3.6.1.2.1.2.2.1.16.{0}'.format(args.interface)
 download_max = args.download
-upload_max = args.upload_max
+upload_max = args.upload
+crit = args.critical
+warn = args.warning
 
+# if verbose
 if args.verbose:
     print (oid_down)
     print (oid_up)
@@ -165,20 +168,56 @@ if args.verbose:
 # get octets
 try:
     # get octets in (Download)
-    oktets_in_t0 = get(args.hostname, ['1.3.6.1.2.1.2.2.1.10.{0}'.format(args.interface)], hlapi.CommunityData(args.communityName)).get(oid_down))
+    oktets_in_t0 = get(args.hostname, [oid_down], hlapi.CommunityData(args.communityName)).get(oid_down)
     time.sleep(delta_t)
-    oktets_in_t1 = get(args.hostname, ['1.3.6.1.2.1.2.2.1.10.{0}'.format(args.interface)], hlapi.CommunityData(args.communityName)).get(oid_down))
+    oktets_in_t1 = get(args.hostname, [oid_down], hlapi.CommunityData(args.communityName)).get(oid_down)
     # get octets out (Upload)
-    oktets_out_t0 = get(args.hostname, ['1.3.6.1.2.1.2.2.1.16.{0}'.format(args.interface)], hlapi.CommunityData(args.communityName)).get(oid_up))
+    oktets_out_t0 = get(args.hostname, [oid_up], hlapi.CommunityData(args.communityName)).get(oid_up)
     time.sleep(delta_t)
-    oktets_out_t1 = get(args.hostname, ['1.3.6.1.2.1.2.2.1.16.{0}'.format(args.interface)], hlapi.CommunityData(args.communityName)).get(oid_up))
+    oktets_out_t1 = get(args.hostname, [oid_up], hlapi.CommunityData(args.communityName)).get(oid_up)
 except Exception as e:
     print("UNKNOWN: Error getting SNMP Values {0}".format(e))
 
 # octets in mbits conversion
-usage_down = ((oktets_in_t1 - oktets_in_t0)/delta_t)*8/1048576
-usage_up = ((oktets_out_t1 - oktets_out_t0)/delta_t)*8/1048576
+usage_down = ((oktets_in_t1 - oktets_in_t0) / delta_t) * 8 / 1048576
+usage_up = ((oktets_out_t1 - oktets_out_t0) / delta_t) * 8 / 1048576
 if args.verbose:
     print ("Bandwidth Download Usage : {0} Mbps".format(usage_down))
     print ("Bandwidth Upload Usage: {0}".format(usage_up))
 
+# Usage in %
+
+usage_down_percent = usage_down / download_max * 100
+usage_up_percent =  usage_up / upload_max * 100
+
+# if verbose
+if args.verbose:
+    print ("Usage Down:{0}".format(usage_down_percent))
+    print ("Usage UP:{0}".format(usage_up_percent))
+
+# Critical, Warning , OK
+# perfdata: 'label'=value[UOM];[warn];[crit];[min];[max]
+if usage_down_percent > crit:
+    print ("CRITICAL: Bandwidth usage (Download) over {0} %".format(crit)+
+        " | 'Download_band'={2}Mbps;{3};{4};{5};{6}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " | 'Upload_band'={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    sys.exit(CRITICAL)
+if usage_up_percent > crit:
+    print ("CRITICAL: Bandwidth usage (Upload) over {0} %".format(crit)+
+        " | 'Download_band'={2}Mbps;{3};{4};{5};{6}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " | 'Upload_band'={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    sys.exit(CRITICAL)
+if usage_down_percent > warn and usage_down_percent < crit:
+    print ("WARNING: Bandwidth usage (Download) over {0} %".format(crit)+
+        " | 'Download_band'={2}Mbps;{3};{4};{5};{6}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " | 'Upload_band'={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    sys.exit(CRITICAL)
+if usage_up_percent > warn and usage_up_percent < crit:
+    print ("WARNING: Bandwidth usage (Upload) over {0} %".format(crit)+
+        " | 'Download_band'={2}Mbps;{3};{4};{5};{6}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " | 'Upload_band'={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    sys.exit(CRITICAL)
+else:
+    print ("OK: Bandwidth Download: {0} %, Upload: {1} %".format(usage_down_percent, usage_up_percent) +
+        " | 'Download_band'={2}Mbps;{3};{4};{5};{6}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " | 'Upload_band'={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
