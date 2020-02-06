@@ -137,7 +137,7 @@ parser.add_argument(
     '-C', '--communityName', default= 'public', help='SNMP Community name' ,type=str
 )
 parser.add_argument(
-    '-t', '--time', default=10, help='Time beetween measurements'
+    '-t', '--time', default=10, help='Time beetween measurements', type=int
 )
 parser.add_argument(
     '-d', '--download', help='Bandwith to compare to (Download)', required=True, type=int
