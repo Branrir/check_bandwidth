@@ -32,5 +32,9 @@ chmod +x check_bandwidth.py
 | -w, --warning | Warning value in % of max bandwidth |
 | -c, --critical | Critical value in % of max bandwidht |
 
+Example usage:
+```bash
+/usr/lib/nagios/plugins/check_bandwidth.py --communityName public --critical 95 --download 12 --hostname 192.168.1.1 --interface 21 --time 10 --upload 12 --warning 90
+```
 -------
 Special thanks to Alessandro Maggio for https://github.com/alessandromaggio/quicksnmp
