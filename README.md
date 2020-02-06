@@ -32,7 +32,5 @@ chmod +x check_bandwidth.py
 | -w, --warning | Warning value in % of max bandwidth |
 | -c, --critical | Critical value in % of max bandwidht |
 
-
-
 -------
 Special thanks to Alessandro Maggio for https://github.com/alessandromaggio/quicksnmp
