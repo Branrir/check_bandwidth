@@ -199,36 +199,36 @@ if args.verbose:
 # Critical, Warning , OK
 # perfdata: 'label'=value[UOM];[warn];[crit];[min];[max]
 if usage_down_percent > crit:
-    print ("CRITICAL: Bandwidth usage (Download): {0}%".format(usage_down_percent)+
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("CRITICAL: Bandwidth usage (Download): {0}%;".format(usage_down_percent)+
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(CRITICAL)
 if usage_up_percent > crit:
-    print ("CRITICAL: Bandwidth usage (Upload): {0}%".format(usage_up_percent)+
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("CRITICAL: Bandwidth usage (Upload): {0}%;".format(usage_up_percent)+
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(CRITICAL)
 if usage_down_percent > warn and usage_down_percent < crit:
-    print ("WARNING: Bandwidth usage (Download): {0}%".format(usage_down_percent)+
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("WARNING: Bandwidth usage (Download): {0}%;".format(usage_down_percent)+
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(WARNING)
 if usage_up_percent > warn and usage_up_percent < crit:
-    print ("WARNING: Bandwidth usage (Upload): {0}%".format(usage_up_percent)+
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("WARNING: Bandwidth usage (Upload): {0}%;".format(usage_up_percent)+
+        "| Download_band=.{0}Mb/s;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(WARNING)
 if usage_up_percent > warn and usage_up_percent < crit and usage_down_percent > warn and usage_down_percent < crit:
-    print ("WARNING: Bandwidth usage Upload: {0} %, Download: {1}".format(usage_up_percent, usage_down_percent)+
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("WARNING: Bandwidth usage Upload: {0} %, Download: {1};".format(usage_up_percent, usage_down_percent)+
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(WARNING)
 if usage_up_percent > crit and usage_down_percent > crit:
-    print ("CRITICAL: Bandwidth usage Upload: {0} %, Download: {1}".format(usage_up_percent, usage_down_percent)+
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("CRITICAL: Bandwidth usage Upload: {0}%, Download: {1}%;".format(usage_up_percent, usage_down_percent)+
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(CRITICAL)
 else:
-    print ("OK: Bandwidth Download: {0} %, Upload: {1} %".format(usage_down_percent, usage_up_percent) +
-        " | Download_band={0}Mbps;{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
-        " | Upload_band={0}Mbps;{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
+    print ("OK: Bandwidth Download: {0}%, Upload: {1}%;".format(usage_down_percent, usage_up_percent) +
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
