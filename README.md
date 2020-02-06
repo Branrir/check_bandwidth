@@ -16,10 +16,11 @@ sudo pip3 install -r requirements
 ---------
 Installation:
 
+```bash
 cd /usr/lib/nagios/plugins
 wget https://raw.githubusercontent.com/Branrir/check_bandwidth/master/check_bandwidth.py
 chmod +x check_bandwidth.py
-
+```
 
 
 
