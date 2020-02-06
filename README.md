@@ -20,7 +20,7 @@ chmod +x check_bandwidth.py
 ## 
 
 | Parameter | Description |
-| --- | --- | --- |
+| --- | --- |
 | -h, --help | Shows help |
 | -H, --host | hostaddress |
 | -i, --interface | Interface index in SNMP |
