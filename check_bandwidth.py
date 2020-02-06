@@ -128,10 +128,10 @@ parser.add_argument(
     '-i', '--interface', help='InterfaceID', required=True
 )
 parser.add_argument(
-    '-c', '--critical', default=95, help='critical value in %', type=float
+    '-c', '--critical', default=95, help='critical value in percent', type=float
 )
 parser.add_argument(
-    '-w', '--warning', default= 80, help='warning value in %', type=float
+    '-w', '--warning', default= 80, help='warning value in percent', type=float
 )
 parser.add_argument(
     '-C', '--communityName', default= 'public', help='SNMP Community name' ,type=str
