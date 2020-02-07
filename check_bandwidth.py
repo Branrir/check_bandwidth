@@ -228,6 +228,10 @@ if usage_up_percent > crit and usage_down_percent > crit:
         "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
         " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
     sys.exit(CRITICAL)
+if (usage_up_percent > 100) or (usage_down_percent > 100):
+    print ("CRITICAL: Network unstable usage over 100%, please check your connection (Possible Change in max Values);" +
+        "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
+        " Upload_band={0};{1};{2};{3};{4}".format(usage_up, int(upload_max/100*warn), int(upload_max/100*crit), 0, upload_max ))
 else:
     print ("OK: Bandwidth Download: {0}%, Upload: {1}%;".format(usage_down_percent, usage_up_percent) +
         "| Download_band={0};{1};{2};{3};{4}".format(usage_down, int(download_max/100*warn), int(download_max/100*crit), 0, download_max ) + 
